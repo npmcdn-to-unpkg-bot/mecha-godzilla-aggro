@@ -1,0 +1,62 @@
+{
+  "name": "mg_aggro_reporter",
+  "repository": "git@github.com:bhaze31/mecha-godzilla-aggro.git",
+  "license": "NONE",
+  "description": "Reporter for displaying MechaGodzilla test output in an easy to use interface that allows direct sharing.",
+  "version": "1.0.0",
+  "main": "aggroServer.js",
+  "scripts": {
+    "deploy": "npm run cleaninstall && npm run build && npm run touch && npm run background",
+    "background": "nohup node aggroServer > srvOut.txt 2> srvErr.txt < srvIn.txt &",
+    "touch": "touch srvOut.txt srvErr.txt srvIn.txt",
+    "kill": "kill $(ps | awk '/node/ && !/awk/ {print $1}')",
+    "start": "node aggroServer.js",
+    "watch": "nodemon aggroServer.js",
+    "clean": "rm -rf ./node_modules && npm cache clean",
+    "cleaninstall": "npm run clean && npm install",
+    "build": "gulp build"
+  },
+  "babel": {
+    "presets": ["es2015", "react"]
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "dependencies": {
+    "alt": "^0.17.8",
+    "colors": "^1.1.2",
+    "express": "^4.13.3",
+    "glob": "5.0.1",
+    "history": "^1.13.0",
+    "lodash.uniq": "^4.5.0",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-router": "^1.0.0",
+    "request": "^2.65.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.1.19",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-register": "^6.3.13",
+    "babelify": "^7.2.0",
+    "bower": "^1.6.5",
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-if": "^2.0.0",
+    "gulp-less": "^3.0.3",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.2",
+    "gulp-util": "^3.0.7",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.6.0"
+  }
+}
