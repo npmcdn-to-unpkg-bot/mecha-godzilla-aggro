@@ -49,9 +49,8 @@ plan.remote('freePort', function (remote) {
 });
 
 plan.remote('initFolder', function (remote) {
-  remote.exec('mkdir ~/Documents/aggro');
-  fetch(remote);
-})
+  remote.exec('git clone git@github.com:bhaze31/mecha-godzilla-aggro.git ~/Documents/aggro');
+});
 
 //Fetches new updates to the repository,
 // and runs the deploy command for the server
