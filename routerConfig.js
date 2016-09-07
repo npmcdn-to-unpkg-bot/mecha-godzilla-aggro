@@ -16,15 +16,15 @@ module.exports = function (app, conf) {
   };
 
   function getMGRuns(environment) {
-    var files = glob.sync(jsonSearchStr);
+    const files = glob.sync(jsonSearchStr);
     runs = {
       qa: [],
       stage: []
     };
+    const dayDiff = getDayDifference(json.timestamp);
     files.forEach(function (path) {
       const json = JSON.parse(fs.readFileSync(path, {encoding : 'utf8'}));
-      const dayDiff = getDayDifference(json.timestamp);
-      if (json.results.env === environment && dayDiff <= 30) {
+      if (json.results.env === environment && dayDiff < 14) {
         const reportObj = getLinkInfo(path);
         const obj = {
             link : reportObj.link,
