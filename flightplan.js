@@ -13,7 +13,7 @@ function npmInstall(local) {
 }
 
 function deployFiles(local) {
-  local.exec(`rsync -avzcO --delete --exclude ".git" "${process.cwd()}/" root@selenium-master.intranet.1stdibs.com:~/Documents/aggro`, { exec: { maxBuffer: 10000 * 1024 }});
+  local.exec(`rsync -avzcO --delete --exclude ".git" "${process.cwd()}/" root@selenium-master.intranet.1stdibs.com:/opt/aggro`, { exec: { maxBuffer: 10000 * 1024 }});
 }
 
 plan.local('buildSync', function(local) {
@@ -49,7 +49,7 @@ plan.remote('freePort', function (remote) {
 });
 
 plan.remote('initFolder', function (remote) {
-  remote.exec('git clone git@github.com:bhaze31/mecha-godzilla-aggro.git ~/Documents/aggro');
+  remote.exec('git clone git@github.com:bhaze31/mecha-godzilla-aggro.git /opt/aggro');
 });
 
 //Fetches new updates to the repository,
@@ -60,7 +60,7 @@ plan.remote('deploy', function (remote) {
 });
 
 plan.remote('clearFolder', function (remote) {
-  remote.exec('rm -rf ~/Documents/aggro/*');
+  remote.exec('rm -rf /opt/aggro/*');
 });
 
 plan.remote('killAndDeploy', function (remote) {
@@ -77,11 +77,3 @@ plan.remote('pm2Stop', function (remote) {
 plan.remote('pm2Start', function (remote) {
   pm2Start(remote);
 });
-
-plan.remote('getLogs', function (remote) {
-  remote.exec(`cat ~/Documents/aggro/srvErr.txt`);
-});
-
-plan.local('getKey', function (local) {
-  local.exec(`cat /var/lib/jenkins/.ssh/id_rsa`)
-})
