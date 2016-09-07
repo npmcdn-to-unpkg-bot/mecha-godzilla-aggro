@@ -34,6 +34,10 @@ function killPort(remote) {
   remote.exec('cd ~/Documents/aggro; npm run killport');
 }
 
+function fetch(remote) {
+  remote.exec('cd ~/Documents/aggro; git pull --rebase origin master');
+}
+
 function deploy(remote) {
   remote.exec('cd ~/Documents/aggro; npm run deploy');
 }
@@ -47,6 +51,7 @@ plan.remote('freePort', function (remote) {
 //Fetches new updates to the repository,
 // and runs the deploy command for the server
 plan.remote('deploy', function (remote) {
+  fetch(remote);
   deploy(remote);
 });
 
