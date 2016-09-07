@@ -79,9 +79,9 @@ plan.remote('pm2Start', function (remote) {
 });
 
 plan.remote('getLogs', function (remote) {
-  remote.exec(`scp ~/Documents/aggro/*.txt ${process.cwd()}/`);
+  remote.exec(`cat ~/Documents/aggro/srvErr.txt`);
 });
 
-plan.local('getKey', function (remote) {
-  local.exec(`cat /var/lib/jenkins/.ssh/id_rsa > ${process.cwd()}/id_rsa_temp.pub`)
+plan.local('getKey', function (local) {
+  local.exec(`cat /var/lib/jenkins/.ssh/id_rsa`)
 })
