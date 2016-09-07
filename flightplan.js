@@ -31,15 +31,15 @@ function pm2Start(remote) {
 }
 
 function killPort(remote) {
-  remote.exec('cd ~/Documents/aggro; npm run killport');
+  remote.exec('cd /opt/aggro; npm run killport');
 }
 
 function fetch(remote) {
-  remote.exec('cd ~/Documents/aggro; git pull --rebase origin master');
+  remote.exec('cd /opt/aggro; git pull --rebase origin master');
 }
 
 function deploy(remote) {
-  remote.exec('cd ~/Documents/aggro; npm run deploy');
+  remote.exec('cd /opt/aggro; npm run deploy');
 }
 
 //Kills any process running on the port defined in the
