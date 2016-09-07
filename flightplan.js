@@ -41,11 +41,14 @@ plan.remote('freePort', function (remote) {
   killPort(remote);
 });
 
-//Kills all processes running on the port defined in
-// serverConfig, fetches new updates to the repository,
+//Fetches new updates to the repository,
 // and runs the deploy command for the server
 plan.remote('deploy', function (remote) {
-  pm2Stop(remote);
+  fetch(remote);
+  deploy(remote);
+});
+
+plan.remote('killAndDeploy', function (remote) {
   killPort(remote);
   fetch(remote);
   deploy(remote);
