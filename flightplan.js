@@ -13,8 +13,7 @@ function npmInstall(local) {
 }
 
 function deployFiles(local) {
-  console.log(local);
-  local.exec(`rsync -avzcO --delete --exclude ".git" "${process.cwd()}"/ root@selenium-master.intranet.1stdibs.com:~/Documents/aggro`, { exec: { maxBuffer: 10000 * 1024 }});
+  local.exec(`rsync -avzcO --delete --exclude ".git" "${process.cwd()}/" root@selenium-master.intranet.1stdibs.com:~/Documents/aggro`, { exec: { maxBuffer: 10000 * 1024 }});
 }
 
 plan.local('buildSync', function(local) {
@@ -48,13 +47,15 @@ plan.remote('freePort', function (remote) {
 //Fetches new updates to the repository,
 // and runs the deploy command for the server
 plan.remote('deploy', function (remote) {
-  fetch(remote);
   deploy(remote);
+});
+
+plan.remote('clearFolder', function (remote) {
+  remote.exec('rm -rf ~/Documents/aggro');
 });
 
 plan.remote('killAndDeploy', function (remote) {
   killPort(remote);
-  fetch(remote);
   deploy(remote);
 });
 
