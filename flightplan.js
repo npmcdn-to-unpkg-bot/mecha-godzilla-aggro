@@ -48,6 +48,11 @@ plan.remote('freePort', function (remote) {
   killPort(remote);
 });
 
+plan.remote('initFolder', function (remote) {
+  remote.exec('mkdir ~/Documents/aggro');
+  fetch(remote);
+})
+
 //Fetches new updates to the repository,
 // and runs the deploy command for the server
 plan.remote('deploy', function (remote) {
@@ -56,7 +61,7 @@ plan.remote('deploy', function (remote) {
 });
 
 plan.remote('clearFolder', function (remote) {
-  remote.exec('rm -rf ~/Documents/aggro');
+  remote.exec('rm -rf ~/Documents/aggro/*');
 });
 
 plan.remote('killAndDeploy', function (remote) {
