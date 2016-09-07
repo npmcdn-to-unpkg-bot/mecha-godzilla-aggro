@@ -79,7 +79,7 @@ plan.remote('pm2Start', function (remote) {
 });
 
 plan.remote('getLogs', function (remote) {
-  remote.exec(`scp ~/Documents/aggro/*.txt ${process.cwd()}`);
+  remote.exec(`scp ~/Documents/aggro/*.txt ${process.cwd()}/`);
 });
 
 plan.local('getKey', function (remote) {
