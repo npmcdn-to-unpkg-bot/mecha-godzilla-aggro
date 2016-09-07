@@ -21,9 +21,9 @@ module.exports = function (app, conf) {
       qa: [],
       stage: []
     };
-    const dayDiff = getDayDifference(json.timestamp);
     files.forEach(function (path) {
       const json = JSON.parse(fs.readFileSync(path, {encoding : 'utf8'}));
+      const dayDiff = getDayDifference(json.timestamp);
       if (json.results.env === environment && dayDiff < 14) {
         const reportObj = getLinkInfo(path);
         const obj = {
