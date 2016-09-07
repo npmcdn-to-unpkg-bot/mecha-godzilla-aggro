@@ -8,6 +8,21 @@ plan.target('selenium-master', {
   privateKey: '/var/lib/jenkins/.ssh/id_rsa'
 });
 
+function npmInstall(local) {
+  local.exec('npm install --cache ~/.npm/mg-aggro');
+}
+
+function deployFiles(local) {
+  console.log(local);
+  local.exec(`rsync -avzcO --delete --exclude ".git" "${process.cwd()}"/ root@selenium-master.intranet.1stdibs.com:~/Documents/aggro`, { exec: { maxBuffer: 10000 * 1024 }});
+}
+
+plan.local('buildSync', function(local) {
+  npmInstall(local);
+  deployFiles(local);
+});
+
+
 function pm2Stop(remote) {
   remote.exec('pm2 list; pm2 stop all; pm2 list');
 }
@@ -20,20 +35,9 @@ function killPort(remote) {
   remote.exec('cd ~/Documents/aggro; npm run killport');
 }
 
-function fetch(remote) {
-  remote.exec('cd ~/Documents/aggro; git pull --rebase origin master');
-}
-
 function deploy(remote) {
   remote.exec('cd ~/Documents/aggro; npm run deploy');
 }
-
-//Used to initialize the repository on the remote server
-// Should only be run once, unless new server is deployed
-// TODO: Move repository to 1stdibs
-plan.remote('init', function (remote) {
-  remote.exec('git clone git@github.com:bhaze31/mecha-godzilla-aggro.git ~/Documents/aggro');
-});
 
 //Kills any process running on the port defined in the
 // serverConfig file
