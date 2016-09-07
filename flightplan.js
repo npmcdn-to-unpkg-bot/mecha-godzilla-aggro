@@ -8,6 +8,14 @@ plan.target('selenium-master', {
   privateKey: '/var/lib/jenkins/.ssh/id_rsa'
 });
 
+function pm2Stop(remote) {
+  remote.exec('pm2 list; pm2 stop all; pm2 list');
+}
+
+function pm2Start(remote) {
+  remote.exec('pm2 startOrGracefulReload /etc/pm2/mecha-aggro.json');
+}
+
 function killPort(remote) {
   remote.exec('cd ~/Documents/aggro; npm run killport');
 }
@@ -37,11 +45,18 @@ plan.remote('freePort', function (remote) {
 // serverConfig, fetches new updates to the repository,
 // and runs the deploy command for the server
 plan.remote('deploy', function (remote) {
+  pm2Stop(remote);
   killPort(remote);
   fetch(remote);
   deploy(remote);
 });
 
-plan.local('testDeploy', function (local) {
-  local.exec('cd ~/projects/mg-aggro; npm run deploy');
+//Stop the old process for the aggro reporter
+plan.remote('pm2Stop', function (remote) {
+  pm2Stop(remote);
+});
+
+//Restart the old aggro reporter
+plan.remote('pm2Start', function (remote) {
+  pm2Start(remote);
 });
