@@ -10,7 +10,7 @@
     "build": "gulp build",
     "clean": "rm -rf ./node_modules && npm cache clean",
     "cleaninstall": "npm run clean && npm install",
-    "deploy": "npm run cleaninstall && npm run build && npm run touch && npm run background",
+    "deploy": "npm run build && npm run touch && npm run background",
     "kill": "kill $(ps | awk '/aggroServer/ && !/awk/ {print $1}') || true",
     "killport": "kill $(lsof -i :9876 | awk '/LISTEN/ {print $2}') || true",
     "start": "node aggroServer.js",
