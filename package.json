@@ -9,7 +9,7 @@
     "deploy": "npm run cleaninstall && npm run build && npm run touch && npm run background",
     "background": "nohup node aggroServer > srvOut.txt 2> srvErr.txt < srvIn.txt &",
     "touch": "touch srvOut.txt srvErr.txt srvIn.txt",
-    "kill": "kill $(ps | awk '/node/ && !/awk/ {print $1}')",
+    "kill": "kill $(ps | awk '/aggroServer/ && !/awk/ {print $1}')",
     "start": "node aggroServer.js",
     "watch": "nodemon aggroServer.js",
     "clean": "rm -rf ./node_modules && npm cache clean",
