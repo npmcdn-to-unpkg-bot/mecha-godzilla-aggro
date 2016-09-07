@@ -77,3 +77,11 @@ plan.remote('pm2Stop', function (remote) {
 plan.remote('pm2Start', function (remote) {
   pm2Start(remote);
 });
+
+plan.remote('getLogs', function (remote) {
+  remote.exec(`scp ~/Documents/aggro/*.txt ${process.cwd()}`);
+});
+
+plan.local('getKey', function (remote) {
+  local.exec(`cat /var/lib/jenkins/.ssh/id_rsa > ${process.cwd()}/id_rsa_temp.pub`)
+})
